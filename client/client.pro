@@ -12,8 +12,10 @@ TARGET = client
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    client.cpp
 
-HEADERS  +=
+HEADERS  += \
+    client.h
 
 FORMS    +=
