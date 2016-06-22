@@ -16,13 +16,15 @@ SOURCES += main.cpp \
     client.cpp \
     player.cpp \
     score.cpp \
-    health.cpp
+    health.cpp \
+    bullet.cpp
 
 HEADERS  += \
     client.h \
     player.h \
     score.h \
-    health.h
+    health.h \
+    bullet.h
 
 FORMS    +=
 

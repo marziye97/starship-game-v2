@@ -18,13 +18,14 @@ class Client : public QWidget/*,public QGraphicsView*/
     Q_OBJECT
 public:
     explicit Client(QWidget *parent = 0);
+
     //void keyPressEvent(QKeyEvent *event);
     QGraphicsScene *scene;
     QGraphicsView *view;
     Player *player;
     Score *score;
     Health *health;
-    Client *client;
+
 signals:
 
 public slots:
@@ -37,10 +38,8 @@ private slots:
 private:
     //Ui::TcpClient *ui;
     QTcpSocket *m_socket;
-    QString m_user;
     QString m_receivedData;
 
-    void updateGui(QAbstractSocket::SocketState state);
 };
 
 #endif // CLIENT_H

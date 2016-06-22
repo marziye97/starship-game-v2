@@ -91,6 +91,7 @@ QString message;
             //message.push_back( QChar(23));
             m_socket->write(message.toLocal8Bit());
             player->move("1");
+
         }
 }
 
