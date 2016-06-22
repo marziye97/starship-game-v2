@@ -4,8 +4,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    client client1;
-    client1.show();
+    Client client1;
+    //client1.show();
 
     return a.exec();
 }

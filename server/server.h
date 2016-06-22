@@ -5,19 +5,21 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 
-class server:public QWidget
+class Server:public QWidget
 {
     Q_OBJECT
 public:
-    explicit server(QWidget *parent = 0);
+    explicit Server(QWidget *parent = 0);
 
 private slots:
    void newConnection();
-   void removeConnction();
+   void removeConnection();
+   void newMessage();
 
-private:
-   QTcpServer *m_server;
-   QList<QTcpSocket*> m_clients;
+   private:
+       QTcpServer *m_server;
+       QList<QTcpSocket*> m_clients;
+       QHash<QTcpSocket*, QString> m_receivedData;
 
 };
 

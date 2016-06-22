@@ -13,9 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    client.cpp
+    client.cpp \
+    player.cpp
 
 HEADERS  += \
-    client.h
+    client.h \
+    player.h
 
 FORMS    +=
+
+RESOURCES += \
+    pic.qrc

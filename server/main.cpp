@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    server server1;
+    Server server1;
     server1.show();
     //
     //cout << "he"
