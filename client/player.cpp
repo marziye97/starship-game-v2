@@ -9,25 +9,27 @@ Player::Player(QGraphicsItem *parent): QGraphicsPixmapItem(parent)
 {
     //set the picture of player.....
 
-    setPixmap(QPixmap(":/pic/player.jpeg"));
+    setPixmap(QPixmap(":/pic/player.png"));
 }
 
-void Player::keyPressEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Left){
+
+void Player::move(QString message){
+    if(message=="1"){
         if (pos().x() > 0)
-        setPos(x()-10,y());
+       setPos(x()-10,y());
     }
-    else if (event->key() == Qt::Key_Right){
-        if(pos().x()+100 <800)
-        setPos(x()+10 , y());
-    }
-    else if (event->key() == Qt::Key_Up){
-        if(pos().y() >  0)
-        setPos(x() , y()-10);
-    }
-    else if (event->key() == Qt::Key_Down){
-        if(pos().y()+100 <600)
-        setPos(x() , y()+10);
-    }
+     if(message=="2"){
+         if(pos().x()+100 <800)
+         setPos(x()+10 , y());
+
+     }
+     if(message=="3"){
+         if(pos().y() >  0)
+         setPos(x() , y()-10);
+     }
+      if(message=="3"){
+          if(pos().y()+100 <600)
+          setPos(x() , y()+10);
+      }
+
 }

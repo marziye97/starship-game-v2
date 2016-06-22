@@ -3,17 +3,18 @@
 #include "player.h"
 #include <QBrush>
 #include <QImage>
-
+#include <QKeyEvent>
+#include <QWidget>
 Client::Client(QWidget *parent) : QWidget(parent){
      scene = new QGraphicsScene();
-     scene ->setSceneRect(0,0,1376,800);
+     scene ->setSceneRect(0,0,1000,800);
      view = new QGraphicsView();
      view->setBackgroundBrush(QImage(":/pic/bg.jpg"));
 
      view->setScene(scene);
      view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
      view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-     view->setFixedSize(1376,800);
+     view->setFixedSize(1000,800);
      view->show();
 
      player = new Player();
@@ -38,6 +39,7 @@ void Client::readMessage(){
         return;
     }
     qDebug()<<"connected to"<<m_socket->localAddress()<<"   port:  "<<52693;
+
     m_receivedData.append(m_socket->readAll());
     if (!m_receivedData.contains(QChar(23)))
         return;
@@ -45,9 +47,28 @@ void Client::readMessage(){
     QStringList messages = m_receivedData.split(QChar(23));
     m_receivedData = messages.takeLast();
     foreach (const QString &message, messages) {
-        //ui->chat->insertPlainText(message + "\n");
+       player->move(message);
 
     }
+}
+void Client::keyPressEvent(QKeyEvent *event){
+QString message;
+        if (event->key() == Qt::Key_Left){
+            message ="1" + QChar(23);
+            m_socket->write(message.toLocal8Bit());
+        }
+        else if (event->key() == Qt::Key_Right){
+            message ="2" + QChar(23);
+            m_socket->write(message.toLocal8Bit());
+        }
+        else if (event->key() == Qt::Key_Up){
+            message ="3" + QChar(23);
+            m_socket->write(message.toLocal8Bit());
+        }
+        else if (event->key() == Qt::Key_Down){
+            message ="4" + QChar(23);
+            m_socket->write(message.toLocal8Bit());
+        }
 }
 
 void Client::disconnectByServer(){

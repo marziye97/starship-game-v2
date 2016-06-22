@@ -8,25 +8,24 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include "player.h"
-
+#include <QObject>
 class Client : public QWidget/*,public QGraphicsView*/
 {
     Q_OBJECT
 public:
     explicit Client(QWidget *parent = 0);
+    void keyPressEvent(QKeyEvent *event);
     QGraphicsScene *scene;
     QGraphicsView *view;
     Player *player;
+
 signals:
 
 public slots:
 
 private slots:
-    //void on_text_returnPressed();
+    //void keyPressEvent(QKeyEvent *event);
     void readMessage();
-    //void on_connect_clicked();
-    //void connectedToServer();
-    //void on_disconnect_clicked();
     void disconnectByServer();
 
 private:
