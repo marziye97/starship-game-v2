@@ -14,11 +14,15 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     client.cpp \
-    player.cpp
+    player.cpp \
+    score.cpp \
+    health.cpp
 
 HEADERS  += \
     client.h \
-    player.h
+    player.h \
+    score.h \
+    health.h
 
 FORMS    +=
 
