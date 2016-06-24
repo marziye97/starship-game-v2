@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Client_t {
-    QByteArrayData data[7];
-    char stringdata[71];
+    QByteArrayData data[5];
+    char stringdata[46];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,15 +30,12 @@ struct qt_meta_stringdata_Client_t {
 static const qt_meta_stringdata_Client_t qt_meta_stringdata_Client = {
     {
 QT_MOC_LITERAL(0, 0, 6),
-QT_MOC_LITERAL(1, 7, 13),
-QT_MOC_LITERAL(2, 21, 0),
-QT_MOC_LITERAL(3, 22, 10),
-QT_MOC_LITERAL(4, 33, 5),
-QT_MOC_LITERAL(5, 39, 11),
-QT_MOC_LITERAL(6, 51, 18)
+QT_MOC_LITERAL(1, 7, 5),
+QT_MOC_LITERAL(2, 13, 0),
+QT_MOC_LITERAL(3, 14, 11),
+QT_MOC_LITERAL(4, 26, 18)
     },
-    "Client\0keyPressEvent\0\0QKeyEvent*\0event\0"
-    "readMessage\0disconnectByServer\0"
+    "Client\0start\0\0readMessage\0disconnectByServer\0"
 };
 #undef QT_MOC_LITERAL
 
@@ -56,12 +53,12 @@ static const uint qt_meta_data_Client[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   29,    2, 0x08,
-       5,    0,   32,    2, 0x08,
-       6,    0,   33,    2, 0x08,
+       1,    0,   29,    2, 0x0a,
+       3,    0,   30,    2, 0x08,
+       4,    0,   31,    2, 0x08,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3,    4,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -73,16 +70,17 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
     if (_c == QMetaObject::InvokeMetaMethod) {
         Client *_t = static_cast<Client *>(_o);
         switch (_id) {
-        case 0: _t->keyPressEvent((*reinterpret_cast< QKeyEvent*(*)>(_a[1]))); break;
+        case 0: _t->start(); break;
         case 1: _t->readMessage(); break;
         case 2: _t->disconnectByServer(); break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObject Client::staticMetaObject = {
-    { &QWidget::staticMetaObject, qt_meta_stringdata_Client.data,
+    { &QGraphicsView::staticMetaObject, qt_meta_stringdata_Client.data,
       qt_meta_data_Client,  qt_static_metacall, 0, 0}
 };
 
@@ -97,12 +95,12 @@ void *Client::qt_metacast(const char *_clname)
     if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_Client.stringdata))
         return static_cast<void*>(const_cast< Client*>(this));
-    return QWidget::qt_metacast(_clname);
+    return QGraphicsView::qt_metacast(_clname);
 }
 
 int Client::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QWidget::qt_metacall(_c, _id, _a);
+    _id = QGraphicsView::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

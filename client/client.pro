@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     score.cpp \
     health.cpp \
     bullet.cpp \
-    enemy.cpp
+    enemy.cpp \
+    button.cpp
 
 HEADERS  += \
     client.h \
@@ -26,9 +27,14 @@ HEADERS  += \
     score.h \
     health.h \
     bullet.h \
-    enemy.h
+    enemy.h \
+    button.h
 
 FORMS    +=
 
 RESOURCES += \
     pic.qrc
+
+OTHER_FILES += \
+    score.txt \
+    health.txt

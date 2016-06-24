@@ -1,13 +1,28 @@
 #include "score.h"
 #include <QFont>
-
+#include <QFile>
+#include <QString>
+#include <QTextStream>
+#include<sstream>
+#include<string>
+#include <QDebug>
 
 Score::Score(QGraphicsItem *parent):QGraphicsTextItem(parent)
 {
-    score = 0;
+    QFile scoreFile("/home/mary/Documents/qt/starship-game-v2/client/score.txt");
+    if(!scoreFile.exists())
+        qDebug()<<"doesn't exist";
+    if(!scoreFile.open(QFile::ReadOnly|QFile::Text)){
+        return;
+    }
+    QTextStream in(&scoreFile);
+    QString s = in.readAll();
+    score = s.split(" ")[0].toInt();
+    qDebug() << score;
     setPlainText(QString("Score: ") + QString::number(score));
-    setDefaultTextColor(Qt::blue);
+    setDefaultTextColor(Qt::white);
     setFont(QFont("times",16));
+    scoreFile.close();
 }
 
 void Score::increase()

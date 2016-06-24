@@ -16,6 +16,7 @@ private slots:
    void removeConnection();
    void newMessage();
 
+
    private:
        QTcpServer *m_server;
        QList<QTcpSocket*> m_clients;

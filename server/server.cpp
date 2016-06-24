@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QString>
+
 Server::Server(QWidget *parent) : QWidget(parent)
 {
 
@@ -18,12 +20,26 @@ void Server::newConnection(){
     while (m_server->hasPendingConnections()) {
         QTcpSocket *con = m_server->nextPendingConnection();
         m_clients << con;
+
         qDebug()<<"connected to"<<m_server->serverAddress()<<"   port:  "<<52693;
         connect(con, SIGNAL(disconnected()), this, SLOT(removeConnection()));
         connect(con, SIGNAL(readyRead()), this, SLOT(newMessage()));
+        qDebug() << "oomad:)";
+        QString m;
+        //QTcpSocket * socket;
+        qDebug()<<m_clients.size();
+        for(int i=0;i<m_clients.size();i++){
+            m="5 ";
+            //m.push_back(QString::number(i+1));
+            m.append(QChar(23));
+            con->write(m.toLocal8Bit());
+            //m_clients[i]->write(m.toLocal8Bit());
+           }
+        if(m_clients.size() == 2){
+            m_clients[0]->write(m.toLocal8Bit());
+        }
+
     }
-
-
 }
 
 void Server::removeConnection(){
