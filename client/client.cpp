@@ -9,12 +9,14 @@
 #include <QtCore>
 #include<typeinfo>
 #include <sstream>
-
+#include <QTimer>
 using namespace std;
 
+int player_num= 0;
 int result=0;
 int client_num=1;
-Client::Client(QWidget *parent) /*: QWidget(parent)*/{
+
+Client::Client(QWidget *parent) {
 
     m_socket=new QTcpSocket;
     m_socket->connectToHost("0.0.0.0",52693);
@@ -33,13 +35,15 @@ Client::Client(QWidget *parent) /*: QWidget(parent)*/{
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFixedSize(1000,900);
 
-     //setFocus();
+//    QTimer *timer = new QTimer();
+//    QObject::connect(timer,SIGNAL(timeout()),player1,SLOT(spawn()));
+
+//    timer->start(2000);
 
 }
 void Client::menu(){
     play = new Button(QString(":/pic/playbutton.png"));
     play->setPos(300,300);
-    scene->addItem(play);
     connect(play,SIGNAL(clicked()),this,SLOT(start()));
 
 }
@@ -47,41 +51,58 @@ void Client::menu(){
 void Client::makeplayer(int num)
 {
     if(num == 1&&result==0){
-        player = new Player();
-        player->setPos(300,500);
-        player->setFlag(QGraphicsItem::ItemIsFocusable);
-        player->setFocus();
-        scene->addItem(player);
+        player1 = new Player();
+        players.push_back(player1);
+        player1->setPos(300,500);
+        player1->setFlag(QGraphicsItem::ItemIsFocusable);
+        player1->setFocus();
+        //player1->grabKeyboard();
+        scene->addItem(player1);
         result=1;
+        QTimer *timer = new QTimer();
+        QObject::connect(timer,SIGNAL(timeout()),players[0],SLOT(spawn()));
+
+        timer->start(2000);
+
     }
     else if(num==2){
-        player = new Player();
-        player->setPos(600,500);
-        player->setFlag(QGraphicsItem::ItemIsFocusable);
-        player->setFocus();
-        scene->addItem(player);
+
+        player2 = new Player();
+        players.push_back(player2);
+        player2->setPos(600,500);
+        scene->addItem(player2);
+        QTimer *timer = new QTimer();
+        QObject::connect(timer,SIGNAL(timeout()),player2,SLOT(spawn()));
+
+        timer->start(2000);
     }
 
 }
 
-void Client::movePlayer(int num,QString message)
+void Client::movePlayer(int num,int mov)
 {
-       if(num ==1){
-           player->move(message);
-       }
-       else if(num == 2){
-           player->move(message);
-       }
+    QString a;
+    if (mov == 3)
+        a = "1";
+    if (mov == 4)
+        a = "2";
+    if (mov == 5)
+        a = "3";
+    if (mov == 6)
+        a = "4";
+
+    qDebug()<<"num ="<<num;
+    if(num==1){
+    players[1]->move(a);
+    }
+    else if(num==2){
+        players[0]->move(a);
+    }
+
 
 }
 void Client::start(){
     scene->removeItem(play);
-//    player = new Player();
-//    player->setPos(400,500);
-//    player->setFlag(QGraphicsItem::ItemIsFocusable);
-//    player->setFocus();
-//    scene->addItem(player);
-
     score = new Score();
     scene->addItem(score);
     health = new Health();
@@ -108,48 +129,105 @@ void Client::readMessage(){
         stringstream ss(str);
         int a;
         ss >> a;
+
         qDebug() << "heyy3";
-        //messages = messages.join("\n").toStdString();
-        qDebug()<<typeid(messages.at(0)).name();
-       if(message == "5 "){
+        qDebug()<<"message: "<<message ;
+        qDebug()<<"messages"<<messages;
+       if(a == 1 || a == 2){
+//           makeplayer(client_num++);
            qDebug()<<"oomad";
-            makeplayer(client_num++);
+           makeplayer(a);
+           qDebug()<<"oomad";
+
+
             qDebug() << "raft";
        }
-       if(message == "1 " || message == "3 " || message == "2 " || message == "4 ")
-            movePlayer(client_num++,message);
+       else if(a == 8 && !player_num) {
+           //player_num=2;
+           player_num = 1;
+           players[0]->number = 1;
+       }
+       else if(a == 9 && !player_num){
+           //player_num = 1;
+           player_num = 2;
+           players[1]->number = 2;
+
+       }
+       else if(message == "3 1 " ||message == "3 2 " || message == "4 1 " ||message == "4 2 " || message == "5 1 " ||message == "5 2 " || message == "6 1 "||message == "6 2 " ) {
+           qDebug()<<"kheili khari";
+           //QString mn=messages.takeLast();
+           //qDebug()<<":)"<<mn<<" "<<messages;
+
+           string str = message.toStdString();
+           stringstream ss(str);
+           int a, b;
+           ss >> a >> b;
+           qDebug()<<"a="<<a<<"B="<<b;
+           movePlayer(b,a);
+
+       }
     }
 }
 void Client::keyPressEvent(QKeyEvent *event){
+    qDebug() << player_num;
 QString message;
         if (event->key() == Qt::Key_Left){
-            player->move("1");
-            //message ='1 ' + QChar(23);
-            message ="1" ;
+             message ="3 " ;
+            if(player_num == 1){
+                players[0]->move("1");
+                message.append("2 ");
+            }
+            else if(player_num == 2){
+                players[1]->move("1");
+                message.append("1 ");
+            }
+
             message.push_back( QChar(23));
             m_socket->write(message.toLocal8Bit());
 
         }
         else if (event->key() == Qt::Key_Right){
-//            message ='2 ' + QChar(23);
-            message ="2" ;
+            message ="4 " ;
+            if(player_num == 1){
+                players[0]->move("2");
+                message.append("2 ");
+            }
+            else if(player_num == 2){
+                players[1]->move("2");
+            message.append("1 ");
+            }
             message.push_back( QChar(23));
             m_socket->write(message.toLocal8Bit());
-            player->move("2");
+
         }
         else if (event->key() == Qt::Key_Up){
-//            message ='3 ' + QChar(23);
-            message ="3" ;
+            message ="5 " ;
+            qDebug() << "up";
+            if(player_num == 1){
+                players[0]->move("3");
+            message.append("2 ");
+            }
+            else if(player_num == 2){
+                players[1]->move("3");
+            message.append("1 ");
+            }
             message.push_back( QChar(23));
             m_socket->write(message.toLocal8Bit());
-            player->move("3");
         }
         else if (event->key() == Qt::Key_Down){
-//            message ='4 ' + QChar(23);
-            message ="4" ;
+            message ="6 " ;
+            qDebug() << "down";
+            if(player_num == 1){
+                players[0]->move("4");
+            message.append("2 ");
+            }
+            else if(player_num == 2){
+                players[1]->move("4");
+            message.append("1 ");
+            }
+
             message.push_back( QChar(23));
             m_socket->write(message.toLocal8Bit());
-            player->move("4");
 
         }
 }

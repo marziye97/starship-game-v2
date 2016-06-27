@@ -3,7 +3,9 @@
 #include <QKeyEvent>
 #include<QGraphicsItem>
 #include "client.h"
+#include "spaceship.h"
 
+Spaceship * ship;
 extern Client* client;
 Player::Player(QGraphicsItem *parent): QGraphicsPixmapItem(parent)
 {
@@ -32,4 +34,21 @@ void Player::move(QString message){
           setPos(x() , y()+10);
       }
 
+}
+
+void Player::spawn(){
+    qDebug()<<"come in spawn";
+    // create an spaceship
+//    if(game->level->getlevel() >= 3 ){
+//        Bubble1 *bubble1 = new Bubble1();
+//        scene()->addItem(bubble1);
+//        Bubble2 *bubble2 = new Bubble2();
+//        scene()->addItem(bubble2);
+        ship = new Spaceship();
+        scene()->addItem(ship);
+    //}
+//    else if(game->level->getlevel() <=2){
+//        ship = new Spaceship();
+//        scene()->addItem(ship);
+//    }
 }

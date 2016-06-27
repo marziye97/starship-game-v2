@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/pic">
         <file>bg.jpg</file>
-        <file>enemy.gif</file>
         <file>player.png</file>
         <file>playbutton.png</file>
+        <file>ship.gif</file>
+        <file>bullet.jpeg</file>
     </qresource>
 </RCC>

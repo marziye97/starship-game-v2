@@ -13,8 +13,9 @@
 #include "score.h"
 #include "health.h"
 #include "button.h"
-
-class Client : /*public QWidget,*/public QGraphicsView
+#include <QVector>
+#include <vector>
+class Client : public QGraphicsView
 {
     Q_OBJECT
 public:
@@ -23,25 +24,27 @@ public:
     void keyPressEvent(QKeyEvent *event);
     QGraphicsScene *scene;
     QGraphicsView *view;
-    Player *player;
+    Player *player1;
+    Player *player2;
+    QVector <Player*> players;
     Score *score;
     Health *health;
     Button *play;
     void menu();
     void gameOver();
     void makeplayer(int);
-    void movePlayer(int,QString);
+    void movePlayer(int,int);
 public slots:
     void start();
 
+signals:
+    //void keyPressEvent(QKeyEvent *event);
 
 private slots:
-    //void keyPressEvent(QKeyEvent *event);
     void readMessage();
     void disconnectByServer();
 
 private:
-    //Ui::TcpClient *ui;
     QTcpSocket *m_socket;
     QString m_receivedData;
 

@@ -1,52 +1,53 @@
 #include "bullet.h"
 #include <QTimer>
 #include <QGraphicsScene>
-#include <QList>
-#include "client.h"
 #include <typeinfo>
-extern Client * client; // there is an external global object called game
+#include "spaceship.h"
 
 Bullet::Bullet(QGraphicsItem *parent): QObject(), QGraphicsPixmapItem(parent){
-    // drew the bullet (a rectangle)
-   // setRect(0,0,10,50);
-    //setPixmap(QPixmap(":/pic/109.png"));
+    setPixmap(QPixmap(":/pic/bullet.jpeg"));
+    QTimer * timer = new QTimer();
+    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
+    timer->start(50);
 
-    // make/connect a timer to move() the bullet every so often
-    //QTimer * timer = new QTimer();
-   // connect(timer,SIGNAL(timeout()),this,SLOT(move()));
-
-    // start the timer
-    //timer->start(50);
 }
 
 void Bullet::move(){
-    // get a list of all the items currently colliding with this bullet
     QList<QGraphicsItem *> colliding_items = collidingItems();
-
-    // if one of the colliding items is an Enemy, destroy both the bullet and the enemy
     for (int i = 0, n = colliding_items.size(); i < n; ++i){
-       /* if (typeid(*(colliding_items[i])) == typeid(spaceship)){
-            // increase the score
-            client->score->increase();
+        if (typeid(*(colliding_items[i])) == typeid(Spaceship)){
+            //if(power1 == ship->getpower()){
+               // game->score->increase();
+//                int random_numbetr= (rand()%2)+1;
+//                if(random_numbetr == 1){
+//                    Award1 * award1 = new Award1();
+//                    award1->setPos(x(),y());
+//                    scene()->addItem(award1);
+//                }
+//                else if(random_numbetr == 2){
+//                    Award2 * award2 = new Award2();
+//                    award2->setPos(x(),y());
+//                    scene()->addItem(award2);
+//                }
+                scene()->removeItem(colliding_items[i]);
+                delete colliding_items[i];
+            //}
+            //else if(power1 != ship->power){
+                scene()->removeItem(this);
+                delete this;
+                //ship->setpower(power1);
+                //return;
+            //}
+            /*scene()->removeItem(colliding_items[i]);
+            delete colliding_items[i];*/
 
-            // remove them from the scene (still on the heap)
-            scene()->removeItem(colliding_items[i]);
-            scene()->removeItem(this);
-
-            // delete them from the heap to save memory
-            delete colliding_items[i];
-            delete this;
-
-            // return (all code below refers to a non existint bullet)
             return;
-        }*/
+        }
     }
-
-    // if there was no collision with an Enemy, move the bullet forward
     setPos(x(),y()-10);
-//    // if the bullet is off the screen, destroy it
     if (pos().y() < 0){
         scene()->removeItem(this);
         delete this;
     }
+
 }

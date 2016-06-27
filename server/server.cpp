@@ -4,6 +4,7 @@
 #include <QGraphicsView>
 #include <QString>
 
+int num_play=1;
 Server::Server(QWidget *parent) : QWidget(parent)
 {
 
@@ -18,26 +19,38 @@ Server::Server(QWidget *parent) : QWidget(parent)
 
 void Server::newConnection(){
     while (m_server->hasPendingConnections()) {
+        QString m;
+        qDebug() << "sending";
         QTcpSocket *con = m_server->nextPendingConnection();
         m_clients << con;
+        for(int i=0;i<m_clients.size();i++){
+        m=QString ::number(i+1);
+        m.append(" ");
+        m.append(QChar(23));
+        con->write(m.toLocal8Bit());
+           }
+        if(m_clients.size() == 2){
+              m="2 ";
+           m.append(QChar(23));
+           m_clients[0]->write(m.toLocal8Bit());
+        }
+        if(m_clients.size() == 1){
+
+            QString s = "8 " ;
+            s.append(QChar(23));
+            m_clients[0]->write(s.toLocal8Bit());
+        }
+        if(m_clients.size() == 2) {
+            QString s = "9 ";
+            s.append(QChar(23));
+            m_clients[1]->write(s.toLocal8Bit());
+        }
 
         qDebug()<<"connected to"<<m_server->serverAddress()<<"   port:  "<<52693;
         connect(con, SIGNAL(disconnected()), this, SLOT(removeConnection()));
         connect(con, SIGNAL(readyRead()), this, SLOT(newMessage()));
         qDebug() << "oomad:)";
-        QString m;
-        //QTcpSocket * socket;
         qDebug()<<m_clients.size();
-        for(int i=0;i<m_clients.size();i++){
-            m="5 ";
-            //m.push_back(QString::number(i+1));
-            m.append(QChar(23));
-            con->write(m.toLocal8Bit());
-            //m_clients[i]->write(m.toLocal8Bit());
-           }
-        if(m_clients.size() == 2){
-            m_clients[0]->write(m.toLocal8Bit());
-        }
 
     }
 }

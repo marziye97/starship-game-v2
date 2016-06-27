@@ -9,7 +9,7 @@ class Bullet: public QObject,public QGraphicsPixmapItem{
 public:
     Bullet(QGraphicsItem * parent=0);
 public slots:
-    void move();
+    virtual void move();
 };
 
 #endif // BULLET_H

@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     health.cpp \
     bullet.cpp \
     enemy.cpp \
-    button.cpp
+    button.cpp \
+    spaceship.cpp
 
 HEADERS  += \
     client.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     health.h \
     bullet.h \
     enemy.h \
-    button.h
+    button.h \
+    spaceship.h
 
 FORMS    +=
 
